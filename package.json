@@ -1,0 +1,22 @@
+{
+  "name": "ezci",
+  "version": "1.0.0",
+  "description": "Easy CI is a CLI to trigger pipelines for rappid continuous integration",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xpl0t/ezci.git"
+  },
+  "keywords": [
+    "cli",
+    "cicd",
+    "pipeline"
+  ],
+  "author": "Johannes Weih",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xpl0t/ezci/issues"
+  },
+  "homepage": "https://github.com/xpl0t/ezci#readme"
+}
