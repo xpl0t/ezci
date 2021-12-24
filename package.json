@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Easy CI is a CLI to trigger pipelines for rappid continuous integration",
   "scripts": {
+    "start": "node src/main.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,10 @@
   "bugs": {
     "url": "https://github.com/xpl0t/ezci/issues"
   },
-  "homepage": "https://github.com/xpl0t/ezci#readme"
+  "homepage": "https://github.com/xpl0t/ezci#readme",
+  "dependencies": {
+    "@caporal/core": "^2.0.2",
+    "chalk": "^5.0.0",
+    "inquirer": "^8.2.0"
+  }
 }
