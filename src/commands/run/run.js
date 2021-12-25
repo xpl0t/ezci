@@ -20,12 +20,10 @@ async function getReleaseBranches(branchPattern) {
 }
 
 async function pickReleaseBranch(branches) {
-  const simplifiedBranchNames = branches.map(b => b.replace('release/', ''));
-
   const questions = [{
     type: 'list',
     name: 'branch',
-    choices: simplifiedBranchNames,
+    choices: branches,
     message: 'Which branch should be pushed?'
   }];
 
