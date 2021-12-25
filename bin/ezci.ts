@@ -2,7 +2,7 @@
 import { program } from '@caporal/core';
 import { runAction } from '../commands/run/run';
 
-const bootstrap = () => {
+const bootstrap = (): void => {
   program
     .command('run', 'Run CI pipeline', {})
     .option('--branch-pattern, -p [branch-pattern]', 'Pattern of branches hooked to CI triggers', { default: 'release/' })

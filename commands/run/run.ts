@@ -2,7 +2,7 @@ import { spawnSync } from 'child_process';
 import { prompt } from 'inquirer';
 import { exit } from 'process';
 
-async function runCommand(command, args) {
+async function runCommand(command, args): Promise<string> {
   const { stdout, stderr, status } = spawnSync(command, args);
 
   if (status !== 0) {
@@ -14,12 +14,12 @@ async function runCommand(command, args) {
   return stdout ? stdout.toString() : null;
 }
 
-async function getReleaseBranches(branchPattern) {
+async function getReleaseBranches(branchPattern): Promise<string[]> {
   const out = await runCommand('git', [ 'branch', '--format=%(refname:short)' ]);
   return out.split('\n').filter(b => b.startsWith(branchPattern));
 }
 
-async function pickReleaseBranch(branches) {
+async function pickReleaseBranch(branches): Promise<string> {
   const questions = [{
     type: 'list',
     name: 'branch',
@@ -30,7 +30,7 @@ async function pickReleaseBranch(branches) {
   return (await prompt(questions))['branch'];
 }
 
-async function checkForVersionUpgrade(logger) {
+async function checkForVersionUpgrade(logger): Promise<void> {
   const questions = [{
     type: 'list',
     name: 'version',
@@ -45,7 +45,7 @@ async function checkForVersionUpgrade(logger) {
   }
 }
 
-async function checkWorkingTreeClean() {
+async function checkWorkingTreeClean(): Promise<void> {
   const res = await runCommand('git', [ 'status', '-s' ]);
   
   if (res.length > 0) {
@@ -53,17 +53,17 @@ async function checkWorkingTreeClean() {
   }
 }
 
-async function getCurrentBranch() {
+async function getCurrentBranch(): Promise<string> {
   const currentBranch = await runCommand('git', [ 'branch', '--show-current' ]);
   return currentBranch.replace('\n', '');
 }
 
-async function checkoutBranch(logger, branch) {
+async function checkoutBranch(logger, branch): Promise<void> {
   logger.debug(`Checking out branch "${branch}"`);
   await runCommand('git', [ 'checkout', branch ]);
 }
 
-async function updateTargetBranch(logger, currentBranch, targetBranch) {
+async function updateTargetBranch(logger, currentBranch, targetBranch): Promise<void> {
   await checkoutBranch(logger, targetBranch);
 
   logger.info(`Overwriting branch "${targetBranch}" with "${currentBranch}"`);
@@ -75,7 +75,7 @@ async function updateTargetBranch(logger, currentBranch, targetBranch) {
   await checkoutBranch(logger, currentBranch);
 }
 
-export const runAction = async ({ logger, options }) => {
+export const runAction = async ({ logger, options }): Promise<void> => {
   const { branchPattern } = options;
 
   const branches = await getReleaseBranches(branchPattern);
