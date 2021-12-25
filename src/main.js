@@ -11,4 +11,3 @@ const bootstrap = () => {
 };
 
 exports.bootstrap = bootstrap;
-bootstrap();

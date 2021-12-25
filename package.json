@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Easy CI is a CLI to trigger pipelines for rappid continuous integration",
   "scripts": {
-    "start": "node src/main.js"
+    "start": "node bin/ezci.js"
   },
   "bin": {
     "ezci": "bin/ezci.js"
