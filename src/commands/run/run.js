@@ -66,7 +66,7 @@ async function checkoutBranch(logger, branch) {
 async function updateTargetBranch(logger, currentBranch, targetBranch) {
   await checkoutBranch(logger, targetBranch);
 
-  logger.info(`Overwriting branch ${targetBranch} with ${currentBranch}`);
+  logger.info(`Overwriting branch "${targetBranch}" with "${currentBranch}"`);
   await runCommand('git', [ 'reset', '--hard', currentBranch ]);
 
   logger.info(`Force pushing branch ${targetBranch}`);
