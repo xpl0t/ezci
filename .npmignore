@@ -16,8 +16,9 @@ node_modules/
 !*.d.ts
 
 # configuration
-renovate.json
-gulpfile.js
 tsconfig.json
 test/jest-config.json
+.editorconfig
+.eslintignore
+.eslintrc.js
 .vscode/
