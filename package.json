@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Easy CI is a CLI to trigger pipelines for rappid continuous integration",
   "scripts": {
-    "start": "node bin/ezci.js"
+    "start": "node bin/ezci.js",
+    "publish": "npm run publish:latest",
+    "publish:latest": "npm publish --tag latest",
+    "publish:next": "npm publish --tag next"
   },
   "bin": {
     "ezci": "bin/ezci.js"
