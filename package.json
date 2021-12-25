@@ -11,6 +11,9 @@
   "bin": {
     "ezci": "bin/ezci.js"
   },
+  "engines": {
+    "node": ">= 10"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/xpl0t/ezci.git"
