@@ -96,7 +96,7 @@ exports.runAction = async ({ logger, options }) => {
   logger.debug(`Current branch: ${currentBranch}`);
   logger.debug(`Target branch: ${targetBranch}`);
 
-  updateTargetBranch(logger, currentBranch, targetBranch);
+  await updateTargetBranch(logger, currentBranch, targetBranch);
 
   logger.info('Done :)');
 };
