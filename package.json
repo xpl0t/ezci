@@ -1,6 +1,6 @@
 {
   "name": "ezci",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Easy CI is a CLI to trigger pipelines for rappid continuous integration",
   "scripts": {
     "start": "node bin/ezci.js",
