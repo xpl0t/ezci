@@ -1,4 +1,23 @@
-node_modules/
-
-.editorconfig
+.idea/
 .gitignore
+.prettierrc
+.travis.yml
+Makefile
+node_modules/
+.DS_Store
+
+# source
+**/*.ts
+*.ts
+/test
+
+# definitions
+!**/*.d.ts
+!*.d.ts
+
+# configuration
+renovate.json
+gulpfile.js
+tsconfig.json
+test/jest-config.json
+.vscode/
