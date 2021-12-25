@@ -14,7 +14,8 @@
     "ezci": "bin/ezci.js"
   },
   "engines": {
-    "node": ">= 10"
+    "node": ">= 10",
+    "npm": ">= 6"
   },
   "repository": {
     "type": "git",
