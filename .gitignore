@@ -1,1 +1,16 @@
+.idea/
+.envrc
 node_modules/
+.DS_Store
+*.map
+
+# output
+commands/**/*.js
+bin/**/*.js
+commands/**/*.d.ts
+bin/**/*.d.ts
+
+# configuration
+renovate.json
+gulpfile.js
+.vscode/
