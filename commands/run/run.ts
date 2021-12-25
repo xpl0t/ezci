@@ -1,12 +1,12 @@
-const { spawnSync } = require('child_process');
-const inquirer = require('inquirer');
-const { exit } = require('process');
+import { spawnSync } from 'child_process';
+import { prompt } from 'inquirer';
+import { exit } from 'process';
 
 async function runCommand(command, args) {
   const { stdout, stderr, status } = spawnSync(command, args);
 
   if (status !== 0) {
-    stderrStr = stderr ? stderr.toString() : null;
+    const stderrStr = stderr ? stderr.toString() : null;
     const commandStr = `${command} ${args.map(a => '"' + a + '"').join(' ')}`;
     throw new Error(`Command '${commandStr}' exited with code ${status}: ${stderrStr}`);
   }
@@ -27,7 +27,7 @@ async function pickReleaseBranch(branches) {
     message: 'Which branch should be pushed?'
   }];
 
-  return (await inquirer.prompt(questions))['branch'];
+  return (await prompt(questions))['branch'];
 }
 
 async function checkForVersionUpgrade(logger) {
@@ -38,7 +38,7 @@ async function checkForVersionUpgrade(logger) {
     message: 'Did you update the version/are you sure to run the pipeline?'
   }];
 
-  const res = (await inquirer.prompt(questions))['version'];
+  const res = (await prompt(questions))['version'];
   if (res !== 'yes') {
     logger.info('Let\'s check everything first :)');
     exit(0);
@@ -75,7 +75,7 @@ async function updateTargetBranch(logger, currentBranch, targetBranch) {
   await checkoutBranch(logger, currentBranch);
 }
 
-exports.runAction = async ({ logger, options }) => {
+export const runAction = async ({ logger, options }) => {
   const { branchPattern } = options;
 
   const branches = await getReleaseBranches(branchPattern);

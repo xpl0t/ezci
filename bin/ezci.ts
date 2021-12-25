@@ -1,5 +1,6 @@
-const { program } = require("@caporal/core");
-const { runAction } = require('./commands/run/run.js');
+#!/usr/bin/env node
+import { program } from '@caporal/core';
+import { runAction } from '../commands/run/run';
 
 const bootstrap = () => {
   program
@@ -10,4 +11,4 @@ const bootstrap = () => {
   program.run();
 };
 
-exports.bootstrap = bootstrap;
+bootstrap();
