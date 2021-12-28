@@ -4,6 +4,7 @@
     "module": "commonjs",
     "target": "es6",
     "skipLibCheck": true,
+    "resolveJsonModule": true,
     "sourceMap": false,
     "strict": false,
     "types": [
