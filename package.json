@@ -4,7 +4,7 @@
   "description": "Easy CI is a CLI to trigger pipelines for rappid continuous integration",
   "scripts": {
     "build": "tsc",
-    "start": "node bin/ezci.js",
+    "start": "ts-node bin/ezci.ts",
     "lint": "eslint '{bin,commands}/**/*.ts' --fix",
     "publish": "npm run publish:latest",
     "publish:latest": "npm publish --tag latest",
@@ -49,6 +49,8 @@
     "eslint-plugin-import": "^2.25.3",
     "jest": "^27.4.5",
     "ts-jest": "^27.1.2",
+    "ts-node": "^10.4.0",
+    "tsconfig-paths": "^3.12.0",
     "typescript": "^4.5.4"
   },
   "jest": {

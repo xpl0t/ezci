@@ -17,5 +17,8 @@
     }
   },
   "include": ["bin", "commands", "shared"],
-  "exclude": ["node_modules", "**/*spec.ts"]
+  "exclude": ["node_modules", "**/*spec.ts"],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
 }
