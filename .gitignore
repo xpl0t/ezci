@@ -1,6 +1,7 @@
 .idea/
 .envrc
 node_modules/
+coverage/
 .DS_Store
 *.map
 
