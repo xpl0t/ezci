@@ -5,8 +5,9 @@ node_modules/
 *.map
 
 # output
-commands/**/*.js
 bin/**/*.js
+commands/**/*.js
+shared/**/*.js
 
 # configuration
 renovate.json

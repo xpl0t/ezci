@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     "lib": ["es2017"],
     "module": "commonjs",
     "target": "es6",
@@ -8,9 +9,13 @@
     "sourceMap": false,
     "strict": false,
     "types": [
-      "node"
-    ]
+      "node",
+      "jest"
+    ],
+    "paths": {
+      "@shared/*": [ "shared/*" ]
+    }
   },
-  "include": ["bin", "commands"],
-  "exclude": ["node_modules"]
+  "include": ["bin", "commands", "shared"],
+  "exclude": ["node_modules", "**/*spec.ts"]
 }

@@ -1,18 +1,6 @@
-import { spawnSync } from 'child_process';
+import { runCommand } from '@shared/func';
 import { prompt } from 'inquirer';
 import { exit } from 'process';
-
-async function runCommand(command, args): Promise<string> {
-  const { stdout, stderr, status } = spawnSync(command, args);
-
-  if (status !== 0) {
-    const stderrStr = stderr ? stderr.toString() : null;
-    const commandStr = `${command} ${args.map(a => '"' + a + '"').join(' ')}`;
-    throw new Error(`Command '${commandStr}' exited with code ${status}: ${stderrStr}`);
-  }
-
-  return stdout ? stdout.toString() : null;
-}
 
 async function getReleaseBranches(branchPattern): Promise<string[]> {
   const out = await runCommand('git', [ 'branch', '--format=%(refname:short)' ]);
