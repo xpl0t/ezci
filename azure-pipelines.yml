@@ -1,0 +1,53 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-20.04
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install node'
+
+- task: Npm@1
+  inputs:
+    command: 'ci'
+  displayName: 'Install packages'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'run test:cov'
+  displayName: 'Test & collect coverage'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'coverage/junit.xml'
+    failTaskOnFailedTests: true
+  displayName: 'Publish test results'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'run build'
+  displayName: 'Build'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'pack'
+  displayName: 'Pack'
+
+- task: CmdLine@2
+  inputs:
+    script: 'mv ezci-*.tgz $(Build.ArtifactStagingDirectory)'
+  displayName: 'Move tarball'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+  displayName: 'Publish tarball'
