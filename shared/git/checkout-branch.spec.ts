@@ -11,6 +11,11 @@ describe('checkoutBranch', () => {
     (git.getCurrentBranch as jest.Mock).mockResolvedValue('test123');
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
+  });
+
   test('runCommand should be called', async () => {
     const branchName = 'test123';
     (func.runCommand as jest.Mock).mockResolvedValue(`Switched to branch '${branchName}'`);

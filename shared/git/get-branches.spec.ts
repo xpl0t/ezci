@@ -5,6 +5,11 @@ jest.mock('@shared/func');
 
 describe('getBranches', () => {
 
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
+  });
+
   test('runCommand should be called', async () => {
     (func.runCommand as jest.Mock).mockResolvedValue('main\ntest');
     const spyRunCommand = jest.spyOn(func, 'runCommand');

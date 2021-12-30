@@ -6,11 +6,9 @@ jest.mock('child_process');
 
 describe('runCommand', () => {
 
-  beforeEach(() => {
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   test('spawnSync is called', async () => {
