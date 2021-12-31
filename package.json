@@ -75,8 +75,13 @@
     "moduleNameMapper": {
       "@shared/(.*)": "<rootDir>/shared/$1"
     },
-    "reporters": [ "default", "jest-junit" ],
-    "coverageReporters": [ "cobertura" ]
+    "reporters": [
+      "default",
+      "jest-junit"
+    ],
+    "coverageReporters": [
+      "cobertura"
+    ]
   },
   "jest-junit": {
     "outputDirectory": "./coverage"
