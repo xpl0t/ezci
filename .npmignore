@@ -18,7 +18,10 @@ node_modules/
 # configuration
 tsconfig.json
 test/jest-config.json
+azure-pipelines.yml
 .editorconfig
 .eslintignore
 .eslintrc.js
 .vscode/
+
+coverage/
