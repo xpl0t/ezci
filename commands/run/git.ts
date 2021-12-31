@@ -41,13 +41,12 @@ export async function updateTargetBranch(logger: Logger, currentBranch: string, 
 }
 
 /**
- * Compares the current branch with the branch that was current, before any git operations were run
- * and logs a warning if it changed.
+ * Compares the current branch with the initial branch and logs a warning if it changed (Indicates misbehaviour).
  */
-export async function checkBranchChanged(logger: Logger, previousBranch: string): Promise<void> {
+export async function checkBranchChanged(logger: Logger, initialBranch: string): Promise<void> {
   const currentBranch = await getCurrentBranch();
 
-  if (currentBranch !== previousBranch) {
-    logger.warn(`Branch changed! Now on "${currentBranch}" (Previously: "${previousBranch}")`);
+  if (currentBranch !== initialBranch) {
+    logger.warn(`Branch changed! Now on "${currentBranch}" (Previously: "${initialBranch}")`);
   }
 }

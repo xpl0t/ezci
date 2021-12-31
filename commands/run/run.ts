@@ -3,7 +3,7 @@ import { checkBranchChanged, checkBranchExists, checkWorkingTreeClean, updateTar
 import { checkForVersionUpgrade, pickReleaseBranch } from './queries';
 
 export const runAction = async ({ logger, options }): Promise<void> => {
-  const currentBranch = await getCurrentBranch();
+  const initialBranch = await getCurrentBranch();
   const { branchPattern } = options;
   let { branch } = options;
 
@@ -11,7 +11,7 @@ export const runAction = async ({ logger, options }): Promise<void> => {
     branch = await pickReleaseBranch(branchPattern);
   }
 
-  if (branch === currentBranch) {
+  if (branch === initialBranch) {
     throw new Error('Current branch = target branch!');
   }
 
@@ -19,12 +19,12 @@ export const runAction = async ({ logger, options }): Promise<void> => {
   await checkForVersionUpgrade(logger);
   await checkWorkingTreeClean();
 
-  logger.debug(`${currentBranch} ➔ ${branch}`);
+  logger.debug(`${initialBranch} ➔ ${branch}`);
 
   try {
-    await updateTargetBranch(logger, currentBranch, branch);
+    await updateTargetBranch(logger, initialBranch, branch);
   } catch (error) {
-    checkBranchChanged(logger, currentBranch);
+    checkBranchChanged(logger, initialBranch);
     throw error;
   }
   
