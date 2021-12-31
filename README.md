@@ -6,7 +6,7 @@
 
 ## Description
 
-Easy CI is a CLI to trigger pipelines for rappid continuous integration
+Easy CI is a CLI to trigger pipelines for rapid continuous integration
 
 ## Installation
 
