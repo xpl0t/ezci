@@ -30,9 +30,19 @@ describe('runAction', () => {
     jest.resetAllMocks();
   });
 
-  test('run command should throw if no release branches are present', async () => {
-    (git.getReleaseBranches as jest.Mock).mockResolvedValue([]);
-    await expect(runAction({ logger, options: { branchPattern: '' } })).rejects.toThrowError('No release branches!');
+  test('run command should pick branch if none is specified', async () => {
+    await runAction({ logger, options: { branchPattern: '' } });
+    expect(queries.pickReleaseBranch).toHaveBeenCalledTimes(1);
+  });
+
+  test('run command should not pick branch if one is specified', async () => {
+    await runAction({ logger, options: { branchPattern: '', branch: 'release/test' } });
+    expect(queries.pickReleaseBranch).not.toHaveBeenCalled();
+  });
+
+  test('run command should check if target branch exists', async () => {
+    await runAction({ logger, options: { branchPattern: '' } });
+    expect(git.checkBranchExists).toHaveBeenCalledTimes(1);
   });
 
   test('run command should throw if release branch is current branch', async () => {

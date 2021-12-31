@@ -7,6 +7,14 @@ export async function getReleaseBranches(branchPattern: string): Promise<string[
   return branches.filter(b => b.startsWith(branchPattern));
 }
 
+export async function checkBranchExists(branch: string): Promise<void> {
+  const branches = await getBranches();
+
+  if (!branches.includes(branch)) {
+    throw new Error(`"${branch}" is no known branch! Available branches: ${branches.map(b => '"' + b + '"').join(', ')}`)
+  }
+}
+
 export async function checkWorkingTreeClean(): Promise<void> {
   const workingTreeClean = await isWorkingTreeClean();
   

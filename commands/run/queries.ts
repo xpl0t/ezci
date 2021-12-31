@@ -1,8 +1,14 @@
 import { prompt } from 'inquirer';
 import { Logger } from '@caporal/core';
 import { exit } from 'process';
+import { getReleaseBranches } from './git';
 
-export async function pickReleaseBranch(branches: string[]): Promise<string> {
+export async function pickReleaseBranch(branchPattern: string): Promise<string> {
+  const branches = await getReleaseBranches(branchPattern);
+  if (branches.length === 0) {
+    throw new Error('No release branches!');
+  }
+
   const questions = [{
     type: 'list',
     name: 'branch',

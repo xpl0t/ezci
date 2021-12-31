@@ -1,6 +1,6 @@
 import * as func from '../../shared/func';
 import * as git from '../../shared/git';
-import { checkBranchChanged, checkoutBranchLog, checkWorkingTreeClean, getReleaseBranches, updateTargetBranch } from './git';
+import { checkBranchChanged, checkBranchExists, checkoutBranchLog, checkWorkingTreeClean, getReleaseBranches, updateTargetBranch } from './git';
 
 jest.mock('@shared/git');
 jest.mock('@shared/func');
@@ -35,6 +35,20 @@ describe('git', () => {
 
     const branches = await getReleaseBranches('');
     expect(branches).toEqual(mockBranches);
+  });
+
+  test('checkBranchExists should throw if the branch does not exist', async () => {
+    const mockBranches = [ 't', 't2' ];
+    (git.getBranches as jest.Mock).mockResolvedValue(mockBranches);
+
+    await expect(checkBranchExists('404branch')).rejects.toThrowError('"404branch" is no known branch! Available branches: "t", "t2"');
+  });
+
+  test('checkBranchExists should not throw if the branch does exist', async () => {
+    const mockBranches = [ 't', '200branchfound', 't2' ];
+    (git.getBranches as jest.Mock).mockResolvedValue(mockBranches);
+
+    await checkBranchExists('200branchfound');
   });
 
   test('checkWorkingTreeClean should throw if working tree is not clean', async () => {
