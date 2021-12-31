@@ -49,6 +49,7 @@
     "eslint": "^8.5.0",
     "eslint-plugin-import": "^2.25.3",
     "jest": "^27.4.5",
+    "jest-junit": "^13.0.0",
     "rimraf": "^3.0.2",
     "ts-jest": "^27.1.2",
     "ts-node": "^10.4.0",
@@ -73,6 +74,10 @@
     "testEnvironment": "node",
     "moduleNameMapper": {
       "@shared/(.*)": "<rootDir>/shared/$1"
-    }
+    },
+    "reporters": [ "default", "jest-junit" ]
+  },
+  "jest-junit": {
+    "outputDirectory": "./coverage"
   }
 }
