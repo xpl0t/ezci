@@ -20,8 +20,7 @@ export const runAction = async ({ logger, options }): Promise<void> => {
   await checkForVersionUpgrade(logger);
   await checkWorkingTreeClean();
 
-  logger.debug(`Current branch: ${currentBranch}`);
-  logger.debug(`Target branch: ${targetBranch}`);
+  logger.debug(`${currentBranch} ➔ ${targetBranch}`);
 
   await updateTargetBranch(logger, currentBranch, targetBranch);
 
