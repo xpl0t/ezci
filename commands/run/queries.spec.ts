@@ -57,7 +57,7 @@ describe('queries', () => {
       throw new Error('exit should not be called on "yes"!');
     });
 
-    await checkForVersionUpgrade({ info: jest.fn() } as any);
+    await checkForVersionUpgrade({ info: jest.fn() } as any, '', '');
   });
 
   test('checkForVersionUpgrade should exit with status 0 if "no" was selected', async () => {
@@ -68,7 +68,7 @@ describe('queries', () => {
       status = s;
     });
 
-    await checkForVersionUpgrade({ info: jest.fn() } as any);
+    await checkForVersionUpgrade({ info: jest.fn() } as any, '', '');
     expect(status).toBe(0);
   });
 
@@ -78,13 +78,13 @@ describe('queries', () => {
         type: 'list',
         name: 'version',
         choices: [ 'no', 'yes' ],
-        message: 'Did you update the version/are you sure to run the pipeline?'
+        message: 'This action will overwrite "t" with "i" and force push "t" to the remote.\nAre you sure to proceed?'
       }]);
 
       return { version: 'yes' };
     });
 
-    await checkForVersionUpgrade({ info: jest.fn() } as any);
+    await checkForVersionUpgrade({ info: jest.fn() } as any, 'i', 't');
   });
 
 });

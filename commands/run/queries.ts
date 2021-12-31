@@ -19,12 +19,12 @@ export async function pickReleaseBranch(branchPattern: string): Promise<string> 
   return (await prompt(questions))['branch'];
 }
 
-export async function checkForVersionUpgrade(logger: Logger): Promise<void> {
+export async function checkForVersionUpgrade(logger: Logger, initialBranch: string, targetBranch: string): Promise<void> {
   const questions = [{
     type: 'list',
     name: 'version',
     choices: [ 'no', 'yes' ],
-    message: 'Did you update the version/are you sure to run the pipeline?'
+    message: `This action will overwrite "${targetBranch}" with "${initialBranch}" and force push "${targetBranch}" to the remote.\nAre you sure to proceed?`
   }];
 
   const res = (await prompt(questions))['version'];

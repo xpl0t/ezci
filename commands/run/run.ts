@@ -16,7 +16,7 @@ export const runAction = async ({ logger, options }): Promise<void> => {
   }
 
   await checkBranchExists(branch);
-  await checkForVersionUpgrade(logger);
+  await checkForVersionUpgrade(logger, initialBranch, branch);
   await checkWorkingTreeClean();
 
   logger.debug(`${initialBranch} ➔ ${branch}`);
