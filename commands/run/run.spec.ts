@@ -1,7 +1,7 @@
 import { Logger } from '@caporal/core';
 import * as sharedGit from '../../shared/git';
 import * as git from './git';
-import { checkWorkingTreeClean, updateTargetBranch } from './git';
+import { checkBranchChanged, checkWorkingTreeClean, updateTargetBranch } from './git';
 import * as queries from './queries';
 import { checkForVersionUpgrade } from './queries';
 import { runAction } from './run';
@@ -27,6 +27,7 @@ describe('runAction', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   test('run command should throw if no release branches are present', async () => {
@@ -52,6 +53,17 @@ describe('runAction', () => {
   test('run command should update target branch', async () => {
     await runAction({ logger, options: { branchPattern: '' } });
     expect(updateTargetBranch).toHaveBeenCalledTimes(1);
+  });
+
+  test('run command should call checkCurrentBranch if updateTargetBranch failed', async () => {
+    (git.updateTargetBranch as jest.Mock).mockImplementation(async () => { throw new Error(); });
+    await expect(runAction({ logger, options: { branchPattern: '' } })).rejects.toThrowError();
+    expect(checkBranchChanged).toHaveBeenCalledTimes(1);
+  });
+
+  test('run command should not check current branch if update branch succeeded', async () => {
+    await runAction({ logger, options: { branchPattern: '' } });
+    expect(checkBranchChanged).not.toHaveBeenCalled();
   });
 
   test('run command should debug log branch resetting information', async () => {

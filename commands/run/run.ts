@@ -1,5 +1,5 @@
 import { getCurrentBranch } from '@shared/git';
-import { checkWorkingTreeClean, getReleaseBranches, updateTargetBranch } from './git';
+import { checkBranchChanged, checkWorkingTreeClean, getReleaseBranches, updateTargetBranch } from './git';
 import { checkForVersionUpgrade, pickReleaseBranch } from './queries';
 
 export const runAction = async ({ logger, options }): Promise<void> => {
@@ -22,7 +22,12 @@ export const runAction = async ({ logger, options }): Promise<void> => {
 
   logger.debug(`${currentBranch} ➔ ${targetBranch}`);
 
-  await updateTargetBranch(logger, currentBranch, targetBranch);
-
+  try {
+    await updateTargetBranch(logger, currentBranch, targetBranch);
+  } catch (error) {
+    checkBranchChanged(logger, currentBranch);
+    throw error;
+  }
+  
   logger.info('Done :)');
 };

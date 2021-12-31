@@ -1,6 +1,6 @@
 import { Logger } from '@caporal/core';
 import { runCommand } from '@shared/func';
-import { checkoutBranch, getBranches, isWorkingTreeClean } from '@shared/git';
+import { checkoutBranch, getBranches, getCurrentBranch, isWorkingTreeClean } from '@shared/git';
 
 export async function getReleaseBranches(branchPattern: string): Promise<string[]> {
   const branches = await getBranches();
@@ -30,4 +30,16 @@ export async function updateTargetBranch(logger: Logger, currentBranch: string, 
   await runCommand('git', [ 'push', '-f' ]);
 
   await checkoutBranchLog(logger, currentBranch);
+}
+
+/**
+ * Compares the current branch with the branch that was current, before any git operations were run
+ * and logs a warning if it changed.
+ */
+export async function checkBranchChanged(logger: Logger, previousBranch: string): Promise<void> {
+  const currentBranch = await getCurrentBranch();
+
+  if (currentBranch !== previousBranch) {
+    logger.warn(`Branch changed! Now on "${currentBranch}" (Previously: "${previousBranch}")`);
+  }
 }

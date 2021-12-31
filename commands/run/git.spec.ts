@@ -1,6 +1,6 @@
 import * as func from '../../shared/func';
 import * as git from '../../shared/git';
-import { checkoutBranchLog, checkWorkingTreeClean, getReleaseBranches, updateTargetBranch } from './git';
+import { checkBranchChanged, checkoutBranchLog, checkWorkingTreeClean, getReleaseBranches, updateTargetBranch } from './git';
 
 jest.mock('@shared/git');
 jest.mock('@shared/func');
@@ -62,6 +62,22 @@ describe('git', () => {
     await checkoutBranchLog({ debug: debugMock } as any, 'test');
 
     expect(debugMock).toHaveBeenCalledTimes(1);
+  });
+
+  test('checkBranchChanged should write warn log, if branch changed', async () => {
+    (git.getCurrentBranch as jest.Mock).mockResolvedValue('release/test');
+    const warnMock = jest.fn();
+    await checkBranchChanged({ warn: warnMock } as any, 'main');
+
+    expect(warnMock).toHaveBeenCalledTimes(1);
+  });
+
+  test('checkBranchChanged should not write log, if branch did not change', async () => {
+    (git.getCurrentBranch as jest.Mock).mockResolvedValue('main');
+    const warnMock = jest.fn();
+    await checkBranchChanged({ warn: warnMock } as any, 'main');
+
+    expect(warnMock).not.toHaveBeenCalled();
   });
 
 });
