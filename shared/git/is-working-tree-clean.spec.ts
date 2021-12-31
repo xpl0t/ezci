@@ -1,7 +1,7 @@
 import * as func from '../func';
 import { isWorkingTreeClean } from './is-working-tree-clean.func';
 
-jest.mock('@shared/func');
+jest.mock('../func');
 
 describe('isWorkingTreeClean', () => {
 

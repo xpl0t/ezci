@@ -11,10 +11,7 @@
     "types": [
       "node",
       "jest"
-    ],
-    "paths": {
-      "@shared/*": [ "shared/*" ]
-    }
+    ]
   },
   "include": ["bin", "commands", "shared"],
   "exclude": ["node_modules", "**/*spec.ts"],

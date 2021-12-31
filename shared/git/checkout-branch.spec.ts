@@ -2,7 +2,7 @@ import * as func from '../func';
 import * as git from '.';
 import { checkoutBranch } from './checkout-branch.func';
 
-jest.mock('@shared/func');
+jest.mock('../func');
 jest.mock('./get-current-branch.func');
 
 describe('checkoutBranch', () => {

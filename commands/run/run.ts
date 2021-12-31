@@ -1,4 +1,4 @@
-import { getCurrentBranch } from '@shared/git';
+import { getCurrentBranch } from '../../shared/git';
 import { checkBranchChanged, checkBranchExists, checkWorkingTreeClean, updateTargetBranch } from './git';
 import { checkForVersionUpgrade, pickReleaseBranch } from './queries';
 

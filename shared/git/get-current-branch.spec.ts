@@ -1,7 +1,7 @@
 import * as func from '../func';
 import { getCurrentBranch } from './get-current-branch.func';
 
-jest.mock('@shared/func');
+jest.mock('../func');
 
 describe('getCurrentBranch', () => {
 

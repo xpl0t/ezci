@@ -1,4 +1,4 @@
-import { runCommand } from '@shared/func';
+import { runCommand } from '../func';
 import { getCurrentBranch } from './get-current-branch.func';
 
 /**

@@ -2,8 +2,8 @@ import * as func from '../../shared/func';
 import * as git from '../../shared/git';
 import { checkBranchChanged, checkBranchExists, checkoutBranchLog, checkWorkingTreeClean, getReleaseBranches, updateTargetBranch } from './git';
 
-jest.mock('@shared/git');
-jest.mock('@shared/func');
+jest.mock('../../shared/git');
+jest.mock('../../shared/func');
 
 describe('git', () => {
 

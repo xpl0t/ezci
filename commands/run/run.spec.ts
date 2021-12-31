@@ -6,7 +6,7 @@ import * as queries from './queries';
 import { checkForVersionUpgrade } from './queries';
 import { runAction } from './run';
 
-jest.mock('@shared/git');
+jest.mock('../../shared/git');
 jest.mock('./git');
 jest.mock('./queries');
 

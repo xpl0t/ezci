@@ -1,4 +1,4 @@
-import { runCommand } from '@shared/func';
+import { runCommand } from '../func';
 
 /**
  * Returns a list of all git branches present.

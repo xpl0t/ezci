@@ -1,6 +1,6 @@
 import { Logger } from '@caporal/core';
-import { runCommand } from '@shared/func';
-import { checkoutBranch, getBranches, getCurrentBranch, isWorkingTreeClean } from '@shared/git';
+import { runCommand } from '../../shared/func';
+import { getBranches, isWorkingTreeClean, checkoutBranch, getCurrentBranch } from '../../shared/git';
 
 export async function getReleaseBranches(branchPattern: string): Promise<string[]> {
   const branches = await getBranches();

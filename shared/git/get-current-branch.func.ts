@@ -1,4 +1,4 @@
-import { runCommand } from '@shared/func';
+import { runCommand } from '../func';
 
 /**
  * Return current git branch.
