@@ -1,6 +1,6 @@
 {
   "name": "ezci",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Easy CI is a CLI to trigger pipelines for rapid continuous integration",
   "scripts": {
     "build": "tsc",
@@ -72,9 +72,6 @@
     ],
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
-    "moduleNameMapper": {
-      "@shared/(.*)": "<rootDir>/shared/$1"
-    },
     "reporters": [
       "default",
       "jest-junit"
