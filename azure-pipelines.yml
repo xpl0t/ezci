@@ -1,6 +1,3 @@
-trigger:
-- main
-
 pool:
   vmImage: ubuntu-20.04
 
@@ -27,6 +24,12 @@ steps:
     testResultsFiles: 'coverage/junit.xml'
     failTaskOnFailedTests: true
   displayName: 'Publish test results'
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: 'coverage/cobertura-coverage.xml'
+  displayName: 'Publish coverage results'
 
 - task: Npm@1
   inputs:
