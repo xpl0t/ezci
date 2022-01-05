@@ -3,6 +3,7 @@
 [![Build Status](https://dev.azure.com/sheepr4ider/ezci/_apis/build/status/xpl0t.ezci?branchName=main)](https://dev.azure.com/sheepr4ider/ezci/_build/latest?definitionId=13&branchName=release%2Ftgz)
 [![Test results](https://img.shields.io/azure-devops/tests/sheepr4ider/ezci/13?compact_message)](https://dev.azure.com/sheepr4ider/ezci/_build/latest?definitionId=13&branchName=release%2Ftgz)
 [![Code coverage](https://img.shields.io/azure-devops/coverage/sheepr4ider/ezci/13)](https://dev.azure.com/sheepr4ider/ezci/_build/latest?definitionId=13&branchName=release%2Ftgz)
+[![NPM version](https://img.shields.io/npm/v/ezci.svg)](https://www.npmjs.com/ezci)
 
 ## Description
 
