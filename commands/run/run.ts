@@ -4,7 +4,7 @@ import { checkForVersionUpgrade, pickReleaseBranch } from './queries';
 
 export const runAction = async ({ logger, options }): Promise<void> => {
   const initialBranch = await getCurrentBranch();
-  const { branchPattern } = options;
+  const { branchPattern, yes } = options;
   let { branch } = options;
 
   if (branch == null) {
@@ -16,7 +16,11 @@ export const runAction = async ({ logger, options }): Promise<void> => {
   }
 
   await checkBranchExists(branch);
-  await checkForVersionUpgrade(logger, initialBranch, branch);
+
+  if (!yes) {
+    await checkForVersionUpgrade(logger, initialBranch, branch);
+  }
+
   await checkWorkingTreeClean();
 
   logger.debug(`${initialBranch} ➔ ${branch}`);

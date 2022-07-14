@@ -50,9 +50,14 @@ describe('runAction', () => {
     await expect(runAction({ logger, options: { branchPattern: '' } })).rejects.toThrowError('Current branch = target branch!');
   });
 
-  test('run command should ask for version upgrade', async () => {
-    await runAction({ logger, options: { branchPattern: '' } });
+  test('run command should ask for version upgrade if yes = false', async () => {
+    await runAction({ logger, options: { branchPattern: '', yes: false } });
     expect(checkForVersionUpgrade).toHaveBeenCalledTimes(1);
+  });
+
+  test('run command should not ask for version upgrade if yes = true', async () => {
+    await runAction({ logger, options: { branchPattern: '', yes: true } });
+    expect(checkForVersionUpgrade).not.toBeCalled();
   });
 
   test('run command should check if working tree is clean', async () => {

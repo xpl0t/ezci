@@ -10,6 +10,7 @@ jest.mock('@caporal/core', () => {
       name: jest.fn(thisReturningFunc),
       version: jest.fn(thisReturningFunc),
       description: jest.fn(thisReturningFunc),
+      default: jest.fn(thisReturningFunc),
       command: jest.fn(thisReturningFunc),
       option: jest.fn(thisReturningFunc),
       action: jest.fn(thisReturningFunc),
