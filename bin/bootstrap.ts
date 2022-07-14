@@ -8,6 +8,7 @@ export const bootstrap = async (): Promise<void> => {
     .version(version)
     .description(description)
     .command('run', 'Run CI pipeline', {})
+    .default()
     .option('--branch, -b [branch]', 'Release branch to use')
     .option('--branch-pattern, -p [branch-pattern]', 'Pattern of branches hooked to CI triggers', { default: 'release/' })
     .action(runAction);
