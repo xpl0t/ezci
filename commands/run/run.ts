@@ -1,8 +1,9 @@
-import { getCurrentBranch } from '../../shared/git';
+import { getCurrentBranch, fetch } from '../../shared/git';
 import { checkBranchChanged, checkBranchExists, checkWorkingTreeClean, updateTargetBranch } from './git';
 import { checkForVersionUpgrade, pickReleaseBranch } from './queries';
 
 export const runAction = async ({ logger, options }): Promise<void> => {
+  await fetch();
   const initialBranch = await getCurrentBranch();
   const { branchPattern, yes } = options;
   let { branch } = options;
