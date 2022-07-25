@@ -1,10 +1,13 @@
 import { Logger } from '@caporal/core';
 import { runCommand } from '../../shared/func';
-import { getBranches, isWorkingTreeClean, checkoutBranch, getCurrentBranch } from '../../shared/git';
+import { getBranches, isWorkingTreeClean, checkoutBranch, getCurrentBranch, getRemoteBranches } from '../../shared/git';
 
 export async function getReleaseBranches(branchPattern: string): Promise<string[]> {
   const branches = await getBranches();
-  return branches.filter(b => b.startsWith(branchPattern));
+  const remoteBranches = await getRemoteBranches();
+
+  const allBranches = [ ...new Set([ ...branches, ...remoteBranches ]) ];
+  return allBranches.filter(b => b.startsWith(branchPattern));
 }
 
 export async function checkBranchExists(branch: string): Promise<void> {

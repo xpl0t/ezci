@@ -1,5 +1,4 @@
 import { runCommand } from '../func';
-
 /**
  * Returns a list of all git branches present.
  *
@@ -7,5 +6,5 @@ import { runCommand } from '../func';
  */
 export async function getBranches(): Promise<string[]> {
   const out = await runCommand('git', [ 'branch', '--format=%(refname:short)' ]);
-  return out.split('\n');
+  return out.split('\n').filter(b => b.length > 0);
 }
