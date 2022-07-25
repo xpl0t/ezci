@@ -12,16 +12,18 @@ describe('git', () => {
     jest.resetAllMocks();
   });
 
-  test('getReleasePipelines should filter branches, that dont start with the branch pattern', async () => {
+  test('getReleaseBranches should filter branches, that dont start with the branch pattern', async () => {
     const branchPattern = 'release/';
-    (git.getBranches as jest.Mock).mockResolvedValue([ 'main', 'release/one', 'release/two', 'two/release/', 'test', 'onerelease/two', 'release/' ]);
+    (git.getBranches as jest.Mock).mockResolvedValue([ 'main', 'release/one', 'release/two', 'two/release/', 'test' ]);
+    (git.getRemoteBranches as jest.Mock).mockResolvedValue([ 'onerelease/two', 'release/' ]);
 
     const branches = await getReleaseBranches(branchPattern);
     expect(branches).toEqual([ 'release/one', 'release/two', 'release/' ]);
   });
 
-  test('getReleasePipelines should return an empty array, if the branch pattern ist null|undefined', async () => {
+  test('getReleaseBranches should return an empty array, if the branch pattern is null|undefined', async () => {
     (git.getBranches as jest.Mock).mockResolvedValue([ 'main', 'release/one', 'release/two', 'two/release/', 'test', 'onerelease/two', 'release/' ]);
+    (git.getRemoteBranches as jest.Mock).mockResolvedValue([]);
 
     const resNull = await getReleaseBranches(null);
     const resUndefined = await getReleaseBranches(undefined);
@@ -29,12 +31,21 @@ describe('git', () => {
     expect(resUndefined).toEqual([]);
   });
 
-  test('getReleasePipelines should return all branches, if the branch pattern ist an empty string', async () => {
+  test('getReleaseBranches should return all branches, if the branch pattern ist an empty string', async () => {
     const mockBranches = [ 'main', 'release/one', 'release/two', 'two/release/', 'test', 'onerelease/two', 'release/' ];
     (git.getBranches as jest.Mock).mockResolvedValue(mockBranches);
+    (git.getRemoteBranches as jest.Mock).mockResolvedValue([]);
 
     const branches = await getReleaseBranches('');
     expect(branches).toEqual(mockBranches);
+  });
+
+  test('getReleaseBranches should return local and remote branches', async () => {
+    (git.getBranches as jest.Mock).mockResolvedValue([ 'release/one' ]);
+    (git.getRemoteBranches as jest.Mock).mockResolvedValue([ 'release/one', 'releae/two' ]);
+
+    const branches = await getReleaseBranches('');
+    expect(branches).toEqual([ 'release/one', 'releae/two' ]);
   });
 
   test('checkBranchExists should throw if the branch does not exist', async () => {

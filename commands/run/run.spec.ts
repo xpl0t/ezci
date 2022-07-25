@@ -16,6 +16,7 @@ describe('runAction', () => {
 
   beforeEach(() => {
     (sharedGit.getCurrentBranch as jest.Mock).mockResolvedValue('main');
+    (sharedGit.fetch as jest.Mock).mockResolvedValue('main');
     (git.getReleaseBranches as jest.Mock).mockResolvedValue([ 'release/test', 'release/prod' ]);
     (queries.pickReleaseBranch as jest.Mock).mockResolvedValue('release/test');
 
@@ -28,6 +29,11 @@ describe('runAction', () => {
   afterEach(() => {
     jest.clearAllMocks();
     jest.resetAllMocks();
+  });
+
+  test('run command should run git fetch', async () => {
+    await runAction({ logger, options: { branchPattern: '' } });
+    expect(sharedGit.fetch).toHaveBeenCalledTimes(1);
   });
 
   test('run command should pick branch if none is specified', async () => {

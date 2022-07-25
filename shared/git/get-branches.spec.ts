@@ -11,7 +11,7 @@ describe('getBranches', () => {
   });
 
   test('runCommand should be called', async () => {
-    (func.runCommand as jest.Mock).mockResolvedValue('main\ntest');
+    (func.runCommand as jest.Mock).mockResolvedValue('main\ntest\n');
     const spyRunCommand = jest.spyOn(func, 'runCommand');
     await getBranches();
 
@@ -30,7 +30,7 @@ describe('getBranches', () => {
   });
 
   test('getBranches should parse git output correctly', async () => {
-    (func.runCommand as jest.Mock).mockResolvedValue('main\ntest');
+    (func.runCommand as jest.Mock).mockResolvedValue('main\ntest\n');
 
     const branches = await getBranches();
     expect(branches).toEqual([ 'main', 'test' ]);
