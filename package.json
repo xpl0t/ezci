@@ -1,6 +1,6 @@
 {
   "name": "ezci",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "Easy CI is a CLI to trigger pipelines for rapid continuous integration",
   "scripts": {
     "build": "tsc",
