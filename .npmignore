@@ -5,6 +5,8 @@
 Makefile
 node_modules/
 .DS_Store
+.github/
+.husky/
 
 # source
 **/*.ts
@@ -23,5 +25,7 @@ azure-pipelines.yml
 .eslintignore
 .eslintrc.js
 .vscode/
+commitlint-config.js
 
 coverage/
+CHANGELOG.md
