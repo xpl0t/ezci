@@ -1,5 +1,5 @@
-import { prompt } from 'inquirer';
 import { Logger } from '@caporal/core';
+import { confirm, select } from '@inquirer/prompts';
 import { exit } from 'process';
 import { getReleaseBranches } from './git';
 
@@ -9,27 +9,20 @@ export async function pickReleaseBranch(branchPattern: string): Promise<string> 
     throw new Error('No release branches!');
   }
 
-  const questions = [{
-    type: 'list',
-    name: 'branch',
-    choices: branches,
-    message: 'Which branch should be pushed?'
-  }];
-
-  return (await prompt(questions))['branch'];
+  return await select({
+    message: 'Which branch should be pushed?',
+    choices: branches.map(b => ({ value: b }))
+  });
 }
 
 export async function checkForVersionUpgrade(logger: Logger, initialBranch: string, targetBranch: string): Promise<void> {
-  const questions = [{
-    type: 'list',
-    name: 'version',
-    choices: [ 'no', 'yes' ],
-    message: `This action will overwrite "${targetBranch}" with "${initialBranch}" and force push "${targetBranch}" to the remote.\nAre you sure to proceed?`
-  }];
+  const res = await confirm({
+    message: `This action will overwrite "${targetBranch}" with "${initialBranch}" and force push "${targetBranch}" to the remote.\nAre you sure to proceed?`,
+    default: true
+  });
 
-  const res = (await prompt(questions))['version'];
-  if (res !== 'yes') {
-    logger.info('Let\'s check everything first :)');
+  if (!res) {
+    logger.info('Aborting...');
     exit(0);
   }
 }

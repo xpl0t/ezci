@@ -1,8 +1,8 @@
-import * as inquirer from 'inquirer';
+import * as inquirer from '@inquirer/prompts';
 import { getReleaseBranches } from './git';
 import { checkForVersionUpgrade, pickReleaseBranch } from './queries';
 
-jest.mock('inquirer');
+jest.mock('@inquirer/prompts');
 jest.mock('./git');
 
 describe('queries', () => {
@@ -17,7 +17,7 @@ describe('queries', () => {
   });
 
   test('pickReleaseBranch should get release pipelines', async () => {
-    (inquirer.prompt as unknown as jest.Mock).mockResolvedValue({ branch: 't' });
+    (inquirer.select as unknown as jest.Mock).mockResolvedValue('t');
     await pickReleaseBranch('release/');
 
     expect(getReleaseBranches).toHaveBeenCalledTimes(1);
@@ -30,29 +30,27 @@ describe('queries', () => {
 
   test('pickReleaseBranch should return inquirer output', async () => {
     const expectedPick = 'release/some';
-    (inquirer.prompt as unknown as jest.Mock).mockResolvedValue({ branch: expectedPick });
+    (inquirer.select as unknown as jest.Mock).mockResolvedValue(expectedPick);
 
     const pick = await pickReleaseBranch('release/');
     expect(pick).toBe(expectedPick);
   });
 
   test('pickReleaseBranch should use correct inquirer options', async () => {
-    (inquirer.prompt as unknown as jest.Mock).mockImplementation(async questions => {
-      expect(questions).toEqual([{
-        type: 'list',
-        name: 'branch',
-        choices: [ 'release/test', 'release/prod' ],
+    (inquirer.select as unknown as jest.Mock).mockImplementation(async questions => {
+      expect(questions).toEqual({
+        choices: [ 'release/test', 'release/prod' ].map(b => ({ value: b })),
         message: 'Which branch should be pushed?'
-      }]);
+      });
 
-      return { branch: 'release/test' };
+      return 'release/test';
     });
 
     await pickReleaseBranch('release/');
   });
 
   test('checkForVersionUpgrade should do nothing if yes was selected', async () => {
-    (inquirer.prompt as unknown as jest.Mock).mockResolvedValue({ version: 'yes' });
+    (inquirer.confirm as unknown as jest.Mock).mockResolvedValue(true);
     (jest.spyOn(process, 'exit') as unknown as jest.Mock).mockImplementation(status => {
       throw new Error('exit should not be called on "yes"!');
     });
@@ -63,7 +61,7 @@ describe('queries', () => {
   test('checkForVersionUpgrade should exit with status 0 if "no" was selected', async () => {
     let status = null;
 
-    (inquirer.prompt as unknown as jest.Mock).mockResolvedValue({ version: 'no' });
+    (inquirer.confirm as unknown as jest.Mock).mockResolvedValue(false);
     (jest.spyOn(process, 'exit') as unknown as jest.Mock).mockImplementation(s => {
       status = s;
     });
@@ -73,15 +71,13 @@ describe('queries', () => {
   });
 
   test('checkForVersionUpgrade should use correct inquirer options', async () => {
-    (inquirer.prompt as unknown as jest.Mock).mockImplementation(async questions => {
-      expect(questions).toEqual([{
-        type: 'list',
-        name: 'version',
-        choices: [ 'no', 'yes' ],
-        message: 'This action will overwrite "t" with "i" and force push "t" to the remote.\nAre you sure to proceed?'
-      }]);
+    (inquirer.confirm as unknown as jest.Mock).mockImplementation(async questions => {
+      expect(questions).toEqual({
+        message: 'This action will overwrite "t" with "i" and force push "t" to the remote.\nAre you sure to proceed?',
+        default: true
+      });
 
-      return { version: 'yes' };
+      return true;
     });
 
     await checkForVersionUpgrade({ info: jest.fn() } as any, 'i', 't');
