@@ -16,7 +16,7 @@ export const runAction = async ({ logger, options }): Promise<void> => {
     throw new Error('Current branch = target branch!');
   }
 
-  await checkBranchExists(branch);
+  await checkBranchExists(branch, true);
 
   if (!yes) {
     await checkForVersionUpgrade(logger, initialBranch, branch);
@@ -32,6 +32,6 @@ export const runAction = async ({ logger, options }): Promise<void> => {
     checkBranchChanged(logger, initialBranch);
     throw error;
   }
-  
+
   logger.info('Done :)');
 };
