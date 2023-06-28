@@ -33,6 +33,7 @@ module.exports = {
     "@typescript-eslint/no-require-imports": ["error"],
     "@typescript-eslint/prefer-nullish-coalescing": ["warn"],
     "brace-style": "off",
-    "@typescript-eslint/brace-style": ["warn"]
+    "@typescript-eslint/brace-style": ["warn"],
+    "@typescript-eslint/no-inferrable-types": 'off'
   },
 };

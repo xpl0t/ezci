@@ -10,8 +10,12 @@ export async function getReleaseBranches(branchPattern: string): Promise<string[
   return allBranches.filter(b => b.startsWith(branchPattern));
 }
 
-export async function checkBranchExists(branch: string): Promise<void> {
+export async function checkBranchExists(branch: string, checkRemote: boolean = false): Promise<void> {
   const branches = await getBranches();
+
+  if (checkRemote) {
+    branches.push(...await getRemoteBranches());
+  }
 
   if (!branches.includes(branch)) {
     throw new Error(`"${branch}" is no known branch! Available branches: ${branches.map(b => '"' + b + '"').join(', ')}`)
@@ -20,7 +24,7 @@ export async function checkBranchExists(branch: string): Promise<void> {
 
 export async function checkWorkingTreeClean(): Promise<void> {
   const workingTreeClean = await isWorkingTreeClean();
-  
+
   if (!workingTreeClean) {
     throw new Error('Working tree not clean!');
   }
