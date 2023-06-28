@@ -18,7 +18,7 @@ describe('runAction', () => {
     (sharedGit.getCurrentBranch as jest.Mock).mockResolvedValue('main');
     (sharedGit.fetch as jest.Mock).mockResolvedValue('main');
     (git.getReleaseBranches as jest.Mock).mockResolvedValue([ 'release/test', 'release/prod' ]);
-    (queries.pickReleaseBranch as jest.Mock).mockResolvedValue('release/test');
+    (queries.pickReleaseBranches as jest.Mock).mockResolvedValue([ 'release/test' ]);
 
     logger = {
       debug: jest.fn(),
@@ -38,12 +38,12 @@ describe('runAction', () => {
 
   test('run command should pick branch if none is specified', async () => {
     await runAction({ logger, options: { branchPattern: '' } });
-    expect(queries.pickReleaseBranch).toHaveBeenCalledTimes(1);
+    expect(queries.pickReleaseBranches).toHaveBeenCalledTimes(1);
   });
 
   test('run command should not pick branch if one is specified', async () => {
     await runAction({ logger, options: { branchPattern: '', branch: 'release/test' } });
-    expect(queries.pickReleaseBranch).not.toHaveBeenCalled();
+    expect(queries.pickReleaseBranches).not.toHaveBeenCalled();
   });
 
   test('run command should check if target branch exists', async () => {
@@ -52,7 +52,7 @@ describe('runAction', () => {
   });
 
   test('run command should throw if release branch is current branch', async () => {
-    (queries.pickReleaseBranch as jest.Mock).mockResolvedValue('main');
+    (queries.pickReleaseBranches as jest.Mock).mockResolvedValue('main');
     await expect(runAction({ logger, options: { branchPattern: '' } })).rejects.toThrowError('Current branch = target branch!');
   });
 

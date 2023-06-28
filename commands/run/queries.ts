@@ -1,16 +1,16 @@
 import { Logger } from '@caporal/core';
-import { confirm, select } from '@inquirer/prompts';
+import { checkbox, confirm } from '@inquirer/prompts';
 import { exit } from 'process';
 import { getReleaseBranches } from './git';
 
-export async function pickReleaseBranch(branchPattern: string): Promise<string> {
+export async function pickReleaseBranches(branchPattern: string): Promise<string[]> {
   const branches = await getReleaseBranches(branchPattern);
   if (branches.length === 0) {
     throw new Error('No release branches!');
   }
 
-  return await select({
-    message: 'Which branch should be pushed?',
+  return await checkbox({
+    message: 'Which branches should be pushed?',
     choices: branches.map(b => ({ value: b }))
   });
 }

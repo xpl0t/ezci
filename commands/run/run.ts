@@ -1,36 +1,39 @@
 import { getCurrentBranch, fetch } from '../../shared/git';
 import { checkBranchChanged, checkBranchExists, checkWorkingTreeClean, updateTargetBranch } from './git';
-import { checkForVersionUpgrade, pickReleaseBranch } from './queries';
+import { checkForVersionUpgrade, pickReleaseBranches } from './queries';
 
 export const runAction = async ({ logger, options }): Promise<void> => {
   await fetch();
   const initialBranch = await getCurrentBranch();
   const { branchPattern, yes } = options;
-  let { branch } = options;
 
-  if (branch == null) {
-    branch = await pickReleaseBranch(branchPattern);
-  }
+  const branches = options.branch == null
+    ? await pickReleaseBranches(branchPattern)
+    : [ options.branch ];
 
-  if (branch === initialBranch) {
+  if (branches.includes(initialBranch)) {
     throw new Error('Current branch = target branch!');
   }
 
-  await checkBranchExists(branch, true);
-
-  if (!yes) {
-    await checkForVersionUpgrade(logger, initialBranch, branch);
+  for (const branch of branches) {
+    await checkBranchExists(branch, true);
   }
 
-  await checkWorkingTreeClean();
+  for (const branch of branches) {
+    if (!yes) {
+      await checkForVersionUpgrade(logger, initialBranch, branch);
+    }
 
-  logger.debug(`${initialBranch} ➔ ${branch}`);
+    await checkWorkingTreeClean();
 
-  try {
-    await updateTargetBranch(logger, initialBranch, branch);
-  } catch (error) {
-    checkBranchChanged(logger, initialBranch);
-    throw error;
+    logger.debug(`${initialBranch} ➔ ${branch}`);
+
+    try {
+      await updateTargetBranch(logger, initialBranch, branch);
+    } catch (error) {
+      checkBranchChanged(logger, initialBranch);
+      throw error;
+    }
   }
 
   logger.info('Done :)');

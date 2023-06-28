@@ -1,6 +1,6 @@
 import * as inquirer from '@inquirer/prompts';
 import { getReleaseBranches } from './git';
-import { checkForVersionUpgrade, pickReleaseBranch } from './queries';
+import { checkForVersionUpgrade, pickReleaseBranches } from './queries';
 
 jest.mock('@inquirer/prompts');
 jest.mock('./git');
@@ -16,37 +16,37 @@ describe('queries', () => {
     jest.resetAllMocks();
   });
 
-  test('pickReleaseBranch should get release pipelines', async () => {
-    (inquirer.select as unknown as jest.Mock).mockResolvedValue('t');
-    await pickReleaseBranch('release/');
+  test('pickReleaseBranches should get release pipelines', async () => {
+    (inquirer.checkbox as unknown as jest.Mock).mockResolvedValue('t');
+    await pickReleaseBranches('release/');
 
     expect(getReleaseBranches).toHaveBeenCalledTimes(1);
   });
 
-  test('pickReleaseBranch should throw when no release pipelines where found', async () => {
+  test('pickReleaseBranches should throw when no release pipelines where found', async () => {
     (getReleaseBranches as jest.Mock).mockResolvedValue([]);
-    await expect(pickReleaseBranch('release/')).rejects.toThrowError('No release branches!');
+    await expect(pickReleaseBranches('release/')).rejects.toThrowError('No release branches!');
   });
 
-  test('pickReleaseBranch should return inquirer output', async () => {
+  test('pickReleaseBranches should return inquirer output', async () => {
     const expectedPick = 'release/some';
-    (inquirer.select as unknown as jest.Mock).mockResolvedValue(expectedPick);
+    (inquirer.checkbox as unknown as jest.Mock).mockResolvedValue([ expectedPick ]);
 
-    const pick = await pickReleaseBranch('release/');
-    expect(pick).toBe(expectedPick);
+    const pick = await pickReleaseBranches('release/');
+    expect(pick).toEqual([ expectedPick ]);
   });
 
-  test('pickReleaseBranch should use correct inquirer options', async () => {
-    (inquirer.select as unknown as jest.Mock).mockImplementation(async questions => {
+  test('pickReleaseBranches should use correct inquirer options', async () => {
+    (inquirer.checkbox as unknown as jest.Mock).mockImplementation(async questions => {
       expect(questions).toEqual({
         choices: [ 'release/test', 'release/prod' ].map(b => ({ value: b })),
-        message: 'Which branch should be pushed?'
+        message: 'Which branches should be pushed?'
       });
 
       return 'release/test';
     });
 
-    await pickReleaseBranch('release/');
+    await pickReleaseBranches('release/');
   });
 
   test('checkForVersionUpgrade should do nothing if yes was selected', async () => {
